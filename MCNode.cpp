@@ -3,6 +3,10 @@
 //
 
 #include "MCNode.h"
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+
 MCNode::MCNode(State state):state(state), parent(NULL),number_of_visits(0){
 
 }
@@ -18,4 +22,62 @@ int MCNode::get_number_of_visits(){
 }
 bool MCNode::is_fully_expanded(){
     return this->untried_actions.size() == 0;
+}
+
+double MCNode::ucb(int c_param){
+    int father_visits = 0;
+    if(this->parent){
+        father_visits = this->parent->get_number_of_visits();
+    }
+    return (this->q()/(this->get_number_of_visits()*1.0)) +
+    c_param * sqrt(2.0 * log( father_visits * 1.0 ) / this->q());
+}
+
+MCNode * MCNode::get_best_child(int c_param){
+    MCNode * max = this->children[0];
+    for(int i = 0; i < this->children.size(); i++){
+
+        if(this->children[i]->ucb(c_param) > max->ucb(c_param)){
+            max = this->children[i];
+        }
+    }
+    return max;
+}
+int MCNode::q(){
+    return this->wins-this->loses;
+
+}
+TicTacTurn MCNode::rollout_policy(std::vector<TicTacTurn> possible_actions){
+    srand((int)time(0));
+    return possible_actions[(rand()%possible_actions.size())];
+}
+int MCNode::rollout(){
+    State current_state = this->state;
+    while (!current_state.finished()){
+        std::vector<TicTacTurn> possible_moves = current_state.get_legal_actions();
+        TicTacTurn action = this->rollout_policy(possible_moves);
+        current_state = current_state.move(action);
+    }
+    return current_state.game_result();
+}
+
+void MCNode::expand(){
+    TicTacTurn action = this->untried_actions.back();
+    this->untried_actions.pop_back();
+    State next_state = this->state.move(action);
+    MCNode child = MCNode(next_state, this);
+    this->children.push_back(&child);
+
+}
+void MCNode::backpropagate(bool win){
+    if(win){
+        this->wins+=1;
+    }else{
+        this->loses+=1;
+    }
+    this->number_of_visits++;
+    if(this->parent){
+        this->parent->backpropagate(win);
+    }
+
 }

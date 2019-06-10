@@ -9,7 +9,7 @@
 class TicTacToeState : public State {
     int game_result();
     bool finished();
-    void move(TicTacTurn m);
+    State move(TicTacTurn m);
     std::vector<TicTacTurn> get_legal_actions();
 };
 

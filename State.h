@@ -14,7 +14,7 @@ public:
     State(int next_to_move);
     virtual int game_result();
     virtual bool finished();
-    virtual void move(TicTacTurn m);
+    virtual State move(TicTacTurn m);
     virtual std::vector<TicTacTurn> get_legal_actions();
 
 };
