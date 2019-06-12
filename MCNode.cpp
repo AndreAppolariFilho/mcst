@@ -8,11 +8,11 @@
 #include <cstdio>
 #include <ctime>
 
-MCNode::MCNode(State state):state(state), parent(NULL),number_of_visits(0){
+MCNode::MCNode(TicTacToeState state):state(state), parent(NULL),number_of_visits(0){
 
 
 }
-MCNode::MCNode(State state, MCNode * parent):state(state),parent(parent),number_of_visits(0){
+MCNode::MCNode(TicTacToeState state, MCNode * parent):state(state),parent(parent),number_of_visits(0){
 
     this->untried_actions = state.get_legal_actions();
 }
@@ -37,6 +37,7 @@ double MCNode::ucb(int c_param){
 }
 
 MCNode * MCNode::get_best_child(int c_param){
+
     MCNode * max = this->children[0];
     for(int i = 0; i < this->children.size(); i++){
 
@@ -58,11 +59,17 @@ TicTacTurn MCNode::rollout_policy(std::vector<TicTacTurn> possible_actions){
 
 }
 int MCNode::rollout(){
-    State current_state = this->state;
+    TicTacToeState current_state = this->state;
     while (!current_state.finished()){
+
         std::vector<TicTacTurn> possible_moves = current_state.get_legal_actions();
+
         TicTacTurn action = this->rollout_policy(possible_moves);
+        printf("t %d\n",current_state.next_to_move);
         current_state = current_state.move(action);
+
+        printf("t 1 %d\n",current_state.next_to_move);
+
     }
     return current_state.game_result();
 }
@@ -70,10 +77,10 @@ int MCNode::rollout(){
 MCNode * MCNode::expand(){
     TicTacTurn action = this->untried_actions.back();
     this->untried_actions.pop_back();
-    State next_state = this->state.move(action);
-    MCNode child = MCNode(next_state, this);
-    this->children.push_back(&child);
-    return &child;
+    TicTacToeState next_state = this->state.move(action);
+    MCNode * child = new MCNode(next_state, this);
+    this->children.push_back(child);
+    return child;
 
 }
 void MCNode::print_state(){

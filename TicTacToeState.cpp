@@ -4,8 +4,8 @@
 
 #include "TicTacToeState.h"
 #include <cstdio>
-TicTacToeState::TicTacToeState():State(1){
-    printf("teste");
+TicTacToeState::TicTacToeState(){
+    this->next_to_move = next_to_move;
     this->players = 2;
     for(int i = 0; i < 3; i++)
     {
@@ -16,8 +16,7 @@ TicTacToeState::TicTacToeState():State(1){
     }
 }
 
-TicTacToeState::TicTacToeState(int board[3][3], int next_turn):State(next_turn){
-
+TicTacToeState::TicTacToeState(int board[3][3], int next_turn){
     this->players = 2;
     for(int i = 0; i < 3; i++)
     {
@@ -77,29 +76,38 @@ int TicTacToeState::game_result(){
 
 bool TicTacToeState::finished(){
     for(int i = 0; i < 3;i++) {
-        if (this->board[i][0] == this->board[i][1] && this->board[i][1] == this->board[i][2]) {
-            return false;
+        if (this->board[i][0] == this->board[i][1] && this->board[i][1] == this->board[i][2] && this->board[i][2] != -1) {
+            return true;
         }
     }
 
     for(int j = 0; j < 3;j++) {
-        return false;
+        if (this->board[0][j] == this->board[1][j] && this->board[1][j] == this->board[2][j] && this->board[0][j] != -1) {
+            return true;
+        }
     }
 
-    if(this->board[0][0] == this->board[1][1] && this->board[1][1] == this->board[2][2])
+    if(this->board[0][0] == this->board[1][1] && this->board[1][1] == this->board[2][2] && this->board[0][0] != -1)
     {
-        return false;
+        return true;
     }
 
-    if(this->board[0][2] == this->board[1][1] && this->board[1][1] == this->board[2][0])
+    if(this->board[0][2] == this->board[1][1] && this->board[1][1] == this->board[2][0] && this->board[0][2] != -1)
     {
-        return false;
+        return true;
     }
-
+    for (int i = 0; i < 3; i++)
+    {
+        for(int j = 0; j < 3; j++)
+        {
+            if(this->board[i][j] == -1)
+                return false;
+        }
+    }
     return true;
 
 }
-State TicTacToeState::move(TicTacTurn m){
+TicTacToeState TicTacToeState::move(TicTacTurn m){
     int new_board[3][3];
     for(int i = 0; i < 3; i++)
     {
@@ -110,6 +118,10 @@ State TicTacToeState::move(TicTacTurn m){
     }
     new_board[m.get_y()][m.get_x()] = m.get_next_to_move();
     int next_to_move = (m.get_next_to_move()+1) % this->players;
+    if(m.get_next_to_move() == 0)
+        next_to_move = 1;
+    else
+        next_to_move = 0;
     return TicTacToeState(new_board, next_to_move);
 }
 void TicTacToeState::print_state(){
@@ -117,7 +129,7 @@ void TicTacToeState::print_state(){
     {
         for(int j = 0; j < 3; j++)
         {
-            printf("%d ",&board[i][j]);
+            printf("%d ",board[i][j]);
         }
         printf("\n");
     }
@@ -128,7 +140,7 @@ std::vector<TicTacTurn> TicTacToeState::get_legal_actions(){
     {
         for(int j = 0; j < 3; j++)
         {
-            if(board[i][j] == 0)
+            if(board[i][j] == -1)
             {
                 TicTacTurn turn = TicTacTurn(j,i, this->next_to_move);
                 legal_actions.push_back(turn);

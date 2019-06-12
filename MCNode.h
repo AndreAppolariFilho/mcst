@@ -6,14 +6,14 @@
 #define MCST_MCNODE_H
 
 #include "TicTacTurn.h"
-#include "State.h"
+#include "TicTacToeState.h"
 #include <vector>
 
 class MCNode {
 private:
     std::vector<TicTacTurn> untried_actions;
     MCNode * parent;
-    State state;
+    TicTacToeState state;
     int number_of_visits;
     int wins;
     int loses;
@@ -21,8 +21,8 @@ private:
     double ucb(int c_param);
     TicTacTurn rollout_policy(std::vector<TicTacTurn> possible_actions);
 public:
-    MCNode(State state);
-    MCNode(State state, MCNode * parent);
+    MCNode(TicTacToeState state);
+    MCNode(TicTacToeState state, MCNode * parent);
     std::vector<TicTacTurn> get_untried_actions();
     int q();
     int get_number_of_visits();

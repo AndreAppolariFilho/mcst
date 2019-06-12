@@ -4,16 +4,20 @@
 
 #ifndef MCST_TICTACTOESTATE_H
 #define MCST_TICTACTOESTATE_H
-#include "State.h"
 
-class TicTacToeState : public State {
+#include "TicTacTurn.h"
+#include <vector>
+
+class TicTacToeState{
 private:
     int board[3][3];
 
+    int players;
 public:
+    int next_to_move;
     int game_result();
     bool finished();
-    State move(TicTacTurn m);
+    TicTacToeState move(TicTacTurn m);
     void print_state();
     std::vector<TicTacTurn> get_legal_actions();
     TicTacToeState();

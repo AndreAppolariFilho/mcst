@@ -5,9 +5,9 @@
 int main() {
 
     int board[3][3] = {
-            {0,0,0},
-            {0,0,0},
-            {0,0,0}
+            {-1,-1,-1},
+            {1,1,-1},
+            {-1,-1,-1}
     };
 
     TicTacToeState state = TicTacToeState(board,0);

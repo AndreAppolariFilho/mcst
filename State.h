@@ -18,8 +18,8 @@ public:
         return 0;
     }
     void print_state(){}
-    virtual bool finished() = 0;
-    virtual State move(TicTacTurn m) = 0;
+    bool finished();
+    State move(TicTacTurn m);
     virtual std::vector<TicTacTurn> get_legal_actions() = 0;
 
 };
