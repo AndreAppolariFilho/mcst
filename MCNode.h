@@ -30,7 +30,7 @@ public:
     MCNode * get_best_child(int c_param);
     int rollout();
     void backpropagate(bool win);
-    void expand();
+    MCNode * expand();
 
 };
 

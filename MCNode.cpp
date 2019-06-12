@@ -44,7 +44,7 @@ MCNode * MCNode::get_best_child(int c_param){
     return max;
 }
 int MCNode::q(){
-    return this->wins-this->loses;
+    return this->wins;
 
 }
 TicTacTurn MCNode::rollout_policy(std::vector<TicTacTurn> possible_actions){
@@ -61,12 +61,13 @@ int MCNode::rollout(){
     return current_state.game_result();
 }
 
-void MCNode::expand(){
+MCNode * MCNode::expand(){
     TicTacTurn action = this->untried_actions.back();
     this->untried_actions.pop_back();
     State next_state = this->state.move(action);
     MCNode child = MCNode(next_state, this);
     this->children.push_back(&child);
+    return &child;
 
 }
 void MCNode::backpropagate(bool win){
