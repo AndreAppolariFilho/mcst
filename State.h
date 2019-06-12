@@ -8,9 +8,11 @@
 #include <vector>
 
 class State {
-private:
+protected:
     int next_to_move;
+    int players;
 public:
+    State(){}
     State(int next_to_move);
     virtual int game_result();
     virtual bool finished();

@@ -7,10 +7,16 @@
 #include "State.h"
 
 class TicTacToeState : public State {
+private:
+    int board[3][3];
+
+public:
     int game_result();
     bool finished();
     State move(TicTacTurn m);
     std::vector<TicTacTurn> get_legal_actions();
+    TicTacToeState();
+    TicTacToeState(int board[3][3], int next_turn);
 };
 
 
