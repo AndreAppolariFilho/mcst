@@ -14,6 +14,7 @@ public:
     int game_result();
     bool finished();
     State move(TicTacTurn m);
+    void print_state();
     std::vector<TicTacTurn> get_legal_actions();
     TicTacToeState();
     TicTacToeState(int board[3][3], int next_turn);

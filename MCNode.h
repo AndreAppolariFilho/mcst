@@ -29,6 +29,7 @@ public:
     bool is_fully_expanded();
     MCNode * get_best_child(int c_param);
     int rollout();
+    void print_state();
     void backpropagate(bool win);
     MCNode * expand();
 

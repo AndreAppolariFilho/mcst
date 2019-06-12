@@ -14,10 +14,13 @@ protected:
 public:
     State(){}
     State(int next_to_move);
-    virtual int game_result();
-    virtual bool finished();
-    virtual State move(TicTacTurn m);
-    virtual std::vector<TicTacTurn> get_legal_actions();
+    int game_result(){
+        return 0;
+    }
+    void print_state(){}
+    virtual bool finished() = 0;
+    virtual State move(TicTacTurn m) = 0;
+    virtual std::vector<TicTacTurn> get_legal_actions() = 0;
 
 };
 

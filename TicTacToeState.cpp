@@ -3,8 +3,9 @@
 //
 
 #include "TicTacToeState.h"
-
+#include <cstdio>
 TicTacToeState::TicTacToeState():State(1){
+    printf("teste");
     this->players = 2;
     for(int i = 0; i < 3; i++)
     {
@@ -16,6 +17,7 @@ TicTacToeState::TicTacToeState():State(1){
 }
 
 TicTacToeState::TicTacToeState(int board[3][3], int next_turn):State(next_turn){
+
     this->players = 2;
     for(int i = 0; i < 3; i++)
     {
@@ -110,7 +112,16 @@ State TicTacToeState::move(TicTacTurn m){
     int next_to_move = (m.get_next_to_move()+1) % this->players;
     return TicTacToeState(new_board, next_to_move);
 }
-
+void TicTacToeState::print_state(){
+    for(int i = 0; i < 3; i++)
+    {
+        for(int j = 0; j < 3; j++)
+        {
+            printf("%d ",&board[i][j]);
+        }
+        printf("\n");
+    }
+}
 std::vector<TicTacTurn> TicTacToeState::get_legal_actions(){
     std::vector<TicTacTurn> legal_actions;
     for(int i = 0; i < 3; i++)

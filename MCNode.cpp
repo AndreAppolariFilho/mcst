@@ -5,12 +5,15 @@
 #include "MCNode.h"
 #include <cmath>
 #include <cstdlib>
+#include <cstdio>
 #include <ctime>
 
 MCNode::MCNode(State state):state(state), parent(NULL),number_of_visits(0){
 
+
 }
 MCNode::MCNode(State state, MCNode * parent):state(state),parent(parent),number_of_visits(0){
+
     this->untried_actions = state.get_legal_actions();
 }
 
@@ -48,8 +51,11 @@ int MCNode::q(){
 
 }
 TicTacTurn MCNode::rollout_policy(std::vector<TicTacTurn> possible_actions){
-    srand((int)time(0));
-    return possible_actions[(rand()%possible_actions.size())];
+    srand(time(NULL));
+    int size = possible_actions.size();
+    int index =  rand() % size;
+    return possible_actions[index];
+
 }
 int MCNode::rollout(){
     State current_state = this->state;
@@ -69,6 +75,9 @@ MCNode * MCNode::expand(){
     this->children.push_back(&child);
     return &child;
 
+}
+void MCNode::print_state(){
+    state.print_state();
 }
 void MCNode::backpropagate(bool win){
     if(win){

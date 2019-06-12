@@ -3,13 +3,16 @@
 //
 
 #include "Tree.h"
+#include <cstdio>
 Tree::Tree(MCNode * node){
     this->node = node;
 }
 
 MCNode * Tree::best_action(int simulations_number){
+
     MCNode * v;
     int reward;
+
     for(int i = 0; i < simulations_number; i++)
     {
         v = this->tree_policy();
