@@ -13,6 +13,7 @@ public:
     Tree(MCNode * node);
     MCNode * best_action(int simulations_number);
     MCNode * tree_policy();
+    MCNode * select();
 };
 
 

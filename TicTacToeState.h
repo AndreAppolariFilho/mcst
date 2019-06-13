@@ -15,7 +15,7 @@ private:
     int players;
 public:
     int next_to_move;
-    int game_result();
+    double game_result();
     bool finished();
     TicTacToeState move(TicTacTurn m);
     void print_state();

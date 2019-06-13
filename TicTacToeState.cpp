@@ -17,6 +17,7 @@ TicTacToeState::TicTacToeState(){
 }
 
 TicTacToeState::TicTacToeState(int board[3][3], int next_turn){
+    this->next_to_move = next_turn;
     this->players = 2;
     for(int i = 0; i < 3; i++)
     {
@@ -27,7 +28,7 @@ TicTacToeState::TicTacToeState(int board[3][3], int next_turn){
     }
 }
 
-int TicTacToeState::game_result(){
+double TicTacToeState::game_result(){
     for(int i = 0; i < 3;i++) {
         if (this->board[i][0] == this->board[i][1] && this->board[i][1] == this->board[i][2]) {
             //Computer wins
@@ -69,8 +70,15 @@ int TicTacToeState::game_result(){
         if (this->board[1][1] == 1)
             return -1;
     }
-
-    return 0;
+    for (int i = 0; i < 3; i++)
+    {
+        for(int j = 0; j < 3; j++)
+        {
+            if(this->board[i][j] == -1)
+                return 0;
+        }
+    }
+    return 0.5;
 
 }
 
