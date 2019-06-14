@@ -18,7 +18,7 @@ private:
     double wins;
     int loses;
 
-    double ucb(int c_param);
+    double ucb(double c_param);
     TicTacTurn rollout_policy(std::vector<TicTacTurn> possible_actions);
 public:
     MCNode * parent;
@@ -30,7 +30,7 @@ public:
     int get_number_of_visits();
     bool is_fully_expanded();
     bool contains_child();
-    MCNode * get_best_child(int c_param);
+    MCNode * get_best_child(double c_param);
     int rollout();
     void print_state();
     void backpropagate(double win);

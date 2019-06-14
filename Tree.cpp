@@ -17,14 +17,14 @@ MCNode * Tree::best_action(int simulations_number){
 
     for(int i = 0; i < simulations_number; i++)
     {
-        v = this->select();
+        //v = this->select();
         v = this->tree_policy();
         reward = v->rollout();
         v->backpropagate(reward);
     }
     /*for(int i = 0; i < this->node->children.size(); i++)
     {
-        printf("%f\n",this->node->children[i]->q());
+        printf("%d\n",this->node->children[i]->children.size());
 
         printf("\n");
     }*/
@@ -42,7 +42,10 @@ MCNode * Tree::tree_policy(){
     MCNode * current_node = this->node;
     while(!current_node->is_fully_expanded())
     {
-        return current_node->expand();
+        if(!current_node->is_fully_expanded())
+            return current_node->expand();
+        else
+            current_node = current_node->get_best_child(sqrt(2));
         /*
         if(!current_node->is_fully_expanded())
             return

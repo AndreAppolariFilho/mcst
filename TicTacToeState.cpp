@@ -124,7 +124,7 @@ TicTacToeState TicTacToeState::move(TicTacTurn m){
             new_board[i][j] = this->board[i][j];
         }
     }
-    new_board[m.get_y()][m.get_x()] = m.get_next_to_move();
+    new_board[m.get_x()][m.get_y()] = m.get_next_to_move();
     int next_to_move = (m.get_next_to_move()+1) % this->players;
     if(m.get_next_to_move() == 0)
         next_to_move = 1;
@@ -150,7 +150,7 @@ std::vector<TicTacTurn> TicTacToeState::get_legal_actions(){
         {
             if(board[i][j] == -1)
             {
-                TicTacTurn turn = TicTacTurn(j,i, this->next_to_move);
+                TicTacTurn turn = TicTacTurn(i,j, this->next_to_move);
                 legal_actions.push_back(turn);
             }
         }
