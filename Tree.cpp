@@ -21,6 +21,7 @@ MCNode * Tree::best_action(int simulations_number){
         v = this->tree_policy();
         reward = v->rollout();
         v->backpropagate(reward);
+        //printf("back %d\n",v->get_number_of_visits());
     }
     /*for(int i = 0; i < this->node->children.size(); i++)
     {
@@ -40,18 +41,15 @@ MCNode * Tree::select(){
 
 MCNode * Tree::tree_policy(){
     MCNode * current_node = this->node;
-    while(!current_node->is_fully_expanded())
+    while(!current_node->is_terminal())
     {
+        //current_node = current_node->expand();
+
         if(!current_node->is_fully_expanded())
             return current_node->expand();
         else
             current_node = current_node->get_best_child(sqrt(2));
-        /*
-        if(!current_node->is_fully_expanded())
-            return
-        else
-            current_node = current_node->get_best_child(1.4);
-        */
+
     }
     return current_node;
 }

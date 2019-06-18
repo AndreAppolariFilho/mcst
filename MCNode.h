@@ -30,6 +30,7 @@ public:
     int get_number_of_visits();
     bool is_fully_expanded();
     bool contains_child();
+    bool is_terminal();
     MCNode * get_best_child(double c_param);
     int rollout();
     void print_state();

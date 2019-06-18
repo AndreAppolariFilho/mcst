@@ -5,8 +5,8 @@
 int main() {
 
     int board[3][3] = {
-            {0,-1,-1},
-            {0,-1,-1},
+            {-1,-1,-1},
+            {-1,-1,-1},
             {-1,-1,-1}
     };
 
@@ -15,7 +15,7 @@ int main() {
     MCNode * root = new MCNode(state);
 
     Tree tree = Tree(root);
-    MCNode * best_action = tree.best_action(1000);
+    MCNode * best_action = tree.best_action(4000);
     best_action->print_state();
 
     return 0;

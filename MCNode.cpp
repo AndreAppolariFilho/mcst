@@ -32,32 +32,33 @@ bool MCNode::is_fully_expanded(){
 }
 
 double MCNode::ucb(double c_param){
-    int father_visits = 0;
+    int father_visits = 1;
     if(this->parent){
         father_visits = this->parent->get_number_of_visits();
     }
-    return (this->q()/(this->get_number_of_visits()*1.0 + FLT_EPSILON)) +
-    c_param * sqrt(log( 2.0* father_visits * 1.0 + 1 ) / (this->get_number_of_visits()+ FLT_EPSILON));
+    double exploration = (this->q()/(this->get_number_of_visits()*1.0));
+    double exploitation = sqrt((2.0*log(  father_visits * 1.0 ) / (this->get_number_of_visits())));
+    return  exploration + c_param * exploitation;
 }
 
 MCNode * MCNode::get_best_child(double c_param){
 
     MCNode * max = this->children[0];
     for(int i = 0; i < this->children.size(); i++){
-        double child = (this->children[i]->q()/(this->children[i]->get_number_of_visits()*1.0)) +
+        /*double child = (this->children[i]->q()/(this->children[i]->get_number_of_visits()*1.0)) +
         c_param * sqrt((2.0*log(  this->get_number_of_visits() * 1.0 ) / (this->children[i]->get_number_of_visits())));
         double m = (max->q()/(max->get_number_of_visits()*1.0 )) +
         c_param * sqrt((2.0*log(  max->parent->get_number_of_visits() * 1.0 ) / (max->get_number_of_visits())));
         //printf("%f\n",child);
-        if(child > m)
+        if(child >= m)
         {
             max = this->children[i];
-        }
-        /*
+        }*/
+
         if(this->children[i]->ucb(c_param) > max->ucb(c_param)){
             max = this->children[i];
         }
-         */
+
     }
     return max;
 }
@@ -82,12 +83,13 @@ int MCNode::rollout(){
         std::vector<TicTacTurn> possible_moves = current_state.get_legal_actions();
         TicTacTurn action = this->rollout_policy(possible_moves);
         current_state = current_state.move(action);
+        //printf("%f\n",current_state.game_result());
 
 
     }
-    printf("%f %f\n",current_state.game_result(),this->number_of_visits);
-    current_state.print_state();
-    printf("\n");
+    //
+    //current_state.print_state();
+    //printf("\n");
 
 
     return current_state.game_result();
@@ -98,9 +100,9 @@ MCNode * MCNode::expand(){
     srand(time(NULL));
     int size = this->untried_actions.size();
     int index =  rand() % size;
-    index = size-1;
+
     TicTacTurn action = this->untried_actions[index];
-    this->untried_actions.erase(this->untried_actions.begin()+index);
+    this->untried_actions.erase(this->untried_actions.begin()+index,this->untried_actions.begin()+index+1);
     TicTacToeState next_state = this->state.move(action);
     MCNode * child = new MCNode(next_state, this);
     this->children.push_back(child);
@@ -110,6 +112,9 @@ MCNode * MCNode::expand(){
 
 void MCNode::print_state(){
     state.print_state();
+}
+bool MCNode::is_terminal(){
+    return this->state.finished();
 }
 void MCNode::backpropagate(double win){
     this->wins+=win;
