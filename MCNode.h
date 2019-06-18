@@ -34,6 +34,8 @@ public:
     MCNode * get_best_child(double c_param);
     int rollout();
     void print_state();
+    void set_state(TicTacToeState state);
+    TicTacToeState get_state();
     void backpropagate(double win);
     MCNode * expand();
 

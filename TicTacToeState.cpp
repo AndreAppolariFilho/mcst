@@ -84,12 +84,43 @@ double TicTacToeState::game_result(){
         }
     }
     if(draw)
-        sum_wins+=0;
+        sum_wins+=0.5;
     return sum_wins;
 
 }
 
 bool TicTacToeState::finished(){
+    for(int i = 0; i < 3;i++) {
+        if (this->board[i][0] == this->board[i][1] && this->board[i][1] == this->board[i][2]) {
+            //Computer wins
+            if (this->board[i][1] == 0 || this->board[i][1] == 1)
+                return true;
+        }
+    }
+
+    for(int j = 0; j < 3;j++) {
+        if (this->board[0][j] == this->board[1][j] && this->board[1][j] == this->board[2][j]) {
+            //Computer wins
+            if (this->board[1][j] == 0 || this->board[1][j] == 1)
+                return true;
+
+        }
+    }
+
+    if(this->board[0][0] == this->board[1][1] && this->board[1][1] == this->board[2][2])
+    {
+        //Computer wins
+        if (this->board[1][1] == 0 || this->board[1][1] == 1)
+            return true;
+
+    }
+
+    if(this->board[0][2] == this->board[1][1] && this->board[1][1] == this->board[2][0])
+    {
+        //Computer wins
+        if (this->board[1][1] == 0 || this->board[1][1] == 1)
+            return true;
+    }
     for (int i = 0; i < 3; i++)
     {
         for(int j = 0; j < 3; j++)
@@ -123,7 +154,13 @@ void TicTacToeState::print_state(){
     {
         for(int j = 0; j < 3; j++)
         {
-            printf("%d ",board[i][j]);
+            if(board[i][j] == 1)
+                printf("x ");
+            if(board[i][j] == 0)
+                printf("o ");
+            if(board[i][j] == -1)
+                printf("  ");
+
         }
         printf("\n");
     }

@@ -24,6 +24,12 @@ MCNode::MCNode(TicTacToeState state, MCNode * parent):state(state),parent(parent
 std::vector<TicTacTurn> MCNode::get_untried_actions(){
     return this->untried_actions;
 }
+void MCNode::set_state(TicTacToeState state){
+    this->state = state;
+}
+TicTacToeState MCNode::get_state(){
+    return this->state;
+}
 int MCNode::get_number_of_visits(){
     return this->number_of_visits;
 }
@@ -45,16 +51,6 @@ MCNode * MCNode::get_best_child(double c_param){
 
     MCNode * max = this->children[0];
     for(int i = 0; i < this->children.size(); i++){
-        /*double child = (this->children[i]->q()/(this->children[i]->get_number_of_visits()*1.0)) +
-        c_param * sqrt((2.0*log(  this->get_number_of_visits() * 1.0 ) / (this->children[i]->get_number_of_visits())));
-        double m = (max->q()/(max->get_number_of_visits()*1.0 )) +
-        c_param * sqrt((2.0*log(  max->parent->get_number_of_visits() * 1.0 ) / (max->get_number_of_visits())));
-        //printf("%f\n",child);
-        if(child >= m)
-        {
-            max = this->children[i];
-        }*/
-
         if(this->children[i]->ucb(c_param) > max->ucb(c_param)){
             max = this->children[i];
         }
