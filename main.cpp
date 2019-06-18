@@ -18,7 +18,7 @@ int main() {
         state.next_to_move = 0;
         root->set_state(state);
         Tree tree = Tree(root);
-        root = tree.best_action(1000);
+        root = tree.best_action(100);
 
         printf("Play of O\n");
         state = root->get_state();
@@ -28,10 +28,10 @@ int main() {
 
         printf("Play of X\n");
         state = root->get_state();
-        state.next_to_move = 0;
+        state.next_to_move = 1;
         root->set_state(state);
         Tree tree1 = Tree(root);
-        root = tree1.best_action(100);
+        root = tree1.best_action(1000);
         root->print_state();
         if(root->get_state().finished()) break;
 
